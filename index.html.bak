@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gabut</title>
+
+    <style>
+        body {
+            background: #45454d;
+            cursor: url("img/hammer.ico"),auto;
+            user-select: none;
+        }
+
+        .holes {
+            width: 600px;
+            height: 600px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: #45454d;
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            grid-template-rows: repeat(3,1fr);
+        }
+
+        .hole {
+            position: relative;
+        }
+
+            .hole img {
+                position: absolute;
+                width: 97%;
+            }
+
+                .hole img.boom {
+                    z-index: 1;
+                    visibility: hidden;
+                }
+
+                .hole img.mouse {
+                    width: 60%;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    visibility: hidden;
+                }
+
+        div {
+            font-size: 3em;
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body onclick="knock()">
+
+    <div>Score：<span class="score"></span></div>
+    <div class="holes">
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+        <div class="hole"><img src="img/boom.png" class="boom" alt=""><img src="img/hole.png" alt=""><img src="img/mouse.png" class="mouse" alt=""></div>
+    </div>
+	
+<audio id="myAudio" controls autoplay>
+  <source src="music1.mp3" type="audio/mp3">
+  <source src="music1.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+    <script>
+	
+		function aud() {
+			document.getElementById("myAudio").autoplay; 
+		}
+        var hole = document.querySelectorAll(".hole");
+        var twin = 0;
+		function mouseout() {
+			
+			if(Number(document.querySelector(".score").innerHTML) == 100){
+				alert("Finish.. 🤩🤩");
+				document.querySelector(".score").innerHTML = "";
+				myFunction();
+			}
+            hole[twin].lastElementChild.style.visibility = "hidden";
+			var i = Math.floor(Math.random() * 9);
+			twin = i;
+            hole[i].lastElementChild.style.visibility = "visible";
+			
+            hole[i].firstElementChild.style.visibility = "hidden";
+        }
+        function clearboom() {
+            for (var i = 0; i < hole.length; i++) {
+                hole[i].firstElementChild.style.visibility = "hidden";
+            }
+        }
+		
+		let nLevel = 1000;
+		setTimeout(myFunction, 100);
+		function myFunction() {
+		  let level = prompt("Please entry your level : ", "easy"); 
+		  if(level == "easy"){ 
+			setInterval(mouseout, 500);
+			aud();
+		  }else if(level == "normal"){ 
+			setInterval(mouseout, 300);
+			aud();
+		  }else if(level == "hard"){ 
+			setInterval(mouseout, 100);
+			aud();
+		  }else{
+			let level = prompt("Please enter your level : ", "easy"); 
+		  }
+		   
+		}
+        for (var i = 0; i < hole.length; i++) {
+            hole[i].lastElementChild.onclick = function () {
+                this.style.visibility = "hidden";
+                this.parentElement.firstElementChild.style.visibility = "visible";
+                setTimeout(clearboom, 260);
+                document.querySelector(".score").innerHTML = Number(document.querySelector(".score").innerHTML) + 10;
+				
+            }
+        }
+        function knock() {
+            document.querySelector("body").style.cursor = "url('img/hammerdown.ico'),auto";
+            setTimeout(function () {
+                document.querySelector("body").style.cursor = "url('img/hammer.ico'),auto";
+            }, 300);
+        }
+    </script>
+
+</body>
+</html>
